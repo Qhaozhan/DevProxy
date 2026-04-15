@@ -1,0 +1,24 @@
+[package]
+name = "devproxy-desktop"
+version = "1.0.0"
+description = "DevProxy - 本地 HTTPS 反向代理工具"
+authors = ["DevProxy"]
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+chrono = "0.4"
+rcgen = { version = "0.13", features = ["pem"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tauri = { version = "2", features = [] }
+windows-sys = { version = "0.59", features = ["Win32_UI_Shell", "Win32_UI_WindowsAndMessaging"] }
+axum = "0.7"
+axum-server = { version = "0.7", features = ["tls-rustls"] }
+reqwest = { version = "0.12", default-features = true, features = ["stream"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+
+[features]
+default = []

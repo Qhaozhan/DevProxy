@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevProxy</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span id="statusDot" class="status-dot stopped"></span>
+        <span class="app-title">DevProxy</span>
+        <a href="https://github.com/Qhaozhan/DevProxy" target="_blank" class="github-link" title="View on GitHub">
+          <svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+          </svg>
+          <span class="github-label">GitHub</span>
+        </a>
+        <span class="star-hint">觉得有用点个 star 吧 👈</span>
+      </div>
+      <div class="topbar-right">
+        <span id="proxyStatus" class="status-text">未启动</span>
+        <span class="divider">|</span>
+        <span id="proxyPid" class="pid-text">PID: -</span>
+      </div>
+    </header>
+
+    <div id="notice" class="notice hidden"></div>
+
+    <div class="layout">
+      <aside class="left-panel">
+        <section class="section">
+          <div class="section-head">
+            <h2>路由规则</h2>
+            <button id="addRouteBtn" type="button" class="btn-icon" title="添加路由">+</button>
+          </div>
+          <div id="routeList" class="route-list"></div>
+        </section>
+
+        <section class="section collapsible collapsed" id="advancedSection">
+          <div class="section-head" id="advancedToggle" style="cursor:pointer;user-select:none;">
+            <h2>高级设置 <span class="collapse-arrow">▸</span></h2>
+          </div>
+          <div class="collapse-body">
+          <div class="setting-row">
+            <div class="setting-label">
+              <span>校验上游 HTTPS 证书</span>
+              <span class="tip" data-tip="开启后检查上游证书是否合法。正常公网域名保持开启，自签名/测试环境才关闭。">?</span>
+            </div>
+            <label class="toggle">
+              <input id="rejectUnauthorized" type="checkbox" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="form-row">
+            <label class="field">
+              <span>监听地址</span>
+              <input id="listenHost" placeholder="127.0.0.1" />
+            </label>
+            <label class="field">
+              <span>监听端口</span>
+              <input id="listenPort" type="number" placeholder="443" />
+            </label>
+          </div>
+          <div class="form-row">
+            <label class="field full">
+              <span>上游超时 (ms)</span>
+              <input id="upstreamTimeoutMs" type="number" placeholder="600000" />
+            </label>
+          </div>
+          </div>
+        </section>
+
+        <section class="section actions">
+          <div class="btn-grid">
+            <button id="saveConfigBtn" type="button" class="btn primary">保存配置</button>
+            <button id="generateCertsBtn" type="button" class="btn accent">生成证书</button>
+            <button id="addHostsBtn" type="button" class="btn">写入 hosts</button>
+            <button id="startProxyBtn" type="button" class="btn accent">启动代理</button>
+            <button id="stopProxyBtn" type="button" class="btn">停止代理</button>
+            <button id="removeHostsBtn" type="button" class="btn">去除 hosts</button>
+            <button id="deleteCertsBtn" type="button" class="btn danger-outline">删除证书</button>
+          </div>
+        </section>
+
+        <section class="section usage">
+          <div class="section-head">
+            <h2>使用流程</h2>
+          </div>
+          <ol class="steps">
+            <li><b>添加路由</b> — 填写需要代理的域名和对应的上游地址</li>
+            <li><b>保存配置</b> — 点击「保存配置」将路由规则写入磁盘</li>
+            <li><b>生成证书</b> — 为域名生成 TLS 证书并安装到系统信任库</li>
+            <li><b>写入 hosts</b> — 将域名指向本地（需管理员权限）</li>
+            <li><b>启动代理</b> — 开始监听并转发 HTTPS 请求</li>
+            <li><b>正常使用</b> — 此时请求该域名会经由本地代理转发至上游</li>
+            <li><b>停止时</b> — 依次点击「停止代理」→「恢复 hosts」即可还原</li>
+          </ol>
+        </section>
+      </aside>
+
+      <main class="right-panel">
+        <div class="log-head">
+          <h2>运行日志</h2>
+          <div class="log-actions">
+            <button id="clearLogsBtn" type="button" class="btn-small">清空</button>
+            <button id="refreshLogsBtn" type="button" class="btn-small">刷新</button>
+          </div>
+        </div>
+        <div id="logs" class="logs"></div>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+desktop/src-tauri/target/
+desktop/src-tauri/gen/
+dist/
+
+# Legacy / unused
+control-panel/
+proxy-core/
+desktop/resources/bin/
+
+# Post drafts (local only)
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Certificates (generated at runtime)
+*.pem
+
+# Lockfiles (optional, uncomment to track)
+# package-lock.json
+# Cargo.lock

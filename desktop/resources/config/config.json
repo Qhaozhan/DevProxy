@@ -1,0 +1,23 @@
+{
+  "listen": {
+    "host": "127.0.0.1",
+    "port": 443
+  },
+  "routes": [
+    {
+      "domain": "api.openai.com",
+      "upstream": "https://your-upstream.example.com"
+    }
+  ],
+  "upstream": {
+    "timeoutMs": 600000,
+    "rejectUnauthorized": true
+  },
+  "tls": {
+    "certPath": "../certs/cert.pem",
+    "keyPath": "../certs/key.pem"
+  },
+  "logging": {
+    "verbose": true
+  }
+}
