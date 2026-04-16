@@ -1,0 +1,39 @@
+[package]
+name = "devproxy"
+version = "1.0.0"
+edition = "2021"
+description = "DevProxy - 本地 HTTPS 反向代理工具"
+
+[[bin]]
+name = "DevProxy"
+path = "src/main.rs"
+
+[dependencies]
+eframe = "0.29"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync"] }
+axum = "0.7"
+axum-server = { version = "0.7", features = ["tls-rustls"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "stream"] }
+rustls = { version = "0.23", features = ["aws_lc_rs"] }
+rcgen = { version = "0.13", features = ["pem"] }
+chrono = "0.4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.59", features = ["Win32_UI_Shell", "Win32_UI_WindowsAndMessaging"] }
+
+[target.'cfg(windows)'.build-dependencies]
+winresource = "0.1"
+
+[profile.release]
+opt-level = "z"
+lto = true
+strip = true
+codegen-units = 1
+panic = "abort"
+
+[package.metadata.winresource]
+OriginalFilename = "DevProxy.exe"
+ProductName = "DevProxy"
+FileDescription = "DevProxy - HTTPS Reverse Proxy"

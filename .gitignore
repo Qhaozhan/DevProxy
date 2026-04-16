@@ -1,0 +1,19 @@
+# Build artifacts
+desktop-native/target/
+desktop-native/target_local/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Certificates (generated at runtime)
+*.pem
+
+# Rust
+Cargo.lock
