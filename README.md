@@ -177,6 +177,14 @@ DevProxy/
 
 ---
 
+## 快速链接
+
+- [GitHub 仓库](https://github.com/Qhaozhan/DevProxy)
+- [百度网盘](https://pan.baidu.com/s/1A1WXazTxrPMwvFNLts9M9g?pwd=ytdy)（密码：ytdy）
+- [夸克网盘](https://pan.quark.cn/s/8653ca1085a0)
+
+---
+
 ## English
 
 DevProxy is a local HTTPS entry proxy for Windows.
